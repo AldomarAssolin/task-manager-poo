@@ -1,27 +1,22 @@
 
 from src.domain.resultado import Resultado, ErroDominio
-
-
-def dividir(a: int, b: int) -> Resultado[float]:
-    if b == 0:
-        return Resultado.falha(ErroDominio("DIVISAO_POR_ZERO", "Não dá pra dividir por zero."))
-    return Resultado.ok(a / b)
+from src.domain.tarefa import Tarefa
 
 
 
 def main() -> None:
     
-    r1 = dividir(10, 2)
-    if r1.is_ok():
-        print("Sucesso:", r1.obter_valor())
-    else:
-        print("Erro:", r1.obter_erro())
+    r = Tarefa.criar("  Estudar   Python  ", "Ver POO e RUP")
+    if r.is_falha():
+        print("Erro:", r.obter_erro())
+        return
 
-    r2 = dividir(10, 0)
-    if r2.is_ok():
-        print("Sucesso:", r2.obter_valor())
-    else:
-        print("Erro:", r2.obter_erro())
+    tarefa = r.obter_valor()
+    print("OK:", tarefa.titulo, "| norm:", tarefa.titulo_normalizado)
+
+    tarefa.atualizar_descricao("   ")  # deve IGNORAR
+    tarefa.touch()  # se quiser registrar atualização mesmo sem mudar nada
+    print("Descrição:", tarefa.descricao)
     
 if __name__ == "__main__":
     main()
