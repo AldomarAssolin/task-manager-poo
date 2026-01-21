@@ -31,13 +31,14 @@ class Tarefa:
     
     _id: UUID
     _titulo: str
+    _titulo_normalizado: str
     _descricao: str
     _status: StatusTarefa
     _criada_em: datetime
     _atualizada_em: datetime
     
-    @staticmethod
-    def criar(cls, titulo:str, descricao: str = "") -> Resultado[Tarefa]:
+    @classmethod
+    def criar(cls, titulo:str, descricao: str = "") -> Resultado["Tarefa"]:
         titulo_limpo = cls._normalizar_titulo_exibicao(titulo)
         titulo_norm = cls._normalizar_titulo_comparacao(titulo_limpo)
         
@@ -86,7 +87,7 @@ class Tarefa:
         return self._atualizada_em
     
     # -------------- Comportamentos --------------
-    def atualoizar_descricao(self, nova_descricao: Optional[str]) -> None:
+    def atualizar_descricao(self, nova_descricao: Optional[str]) -> None:
         """
         RN-UC01-03: descrição vazia/nula NÃO altera a descrição existente.
         """
